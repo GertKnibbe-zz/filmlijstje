@@ -14,24 +14,22 @@ Een Python-tool om eenvoudig films te zoeken, filteren en beheren in een persoon
     💾 Opslaan van watchlist naar lokaal bestand
 
 🛠️ Installatie
+Clone deze repository:
 
-    Clone deze repository:
+    git clone https://github.com/GertKnibbe-zz/filmlijstje.git
+    cd filmlijstje
+Installeer de vereisten:
 
-git clone https://github.com/<jouw-gebruikersnaam>/filmlijstje.git
-cd filmlijstje
+    pip install -r requirements.txt
 
-    Installeer de vereisten:
+Start de tool:
 
-pip install -r requirements.txt
-
-    Start de tool:
-
-python main.py
+    python main.py
 
 🔧 Toekomstige plannen
 
   GUI-versie (Tkinter of PyQt)
   Export naar CSV of PDF
 
-
+________________________
 Gemaakt met ❤️ door Gert
