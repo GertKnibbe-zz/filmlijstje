@@ -1,4 +1,4 @@
-from api.api import run_api_request
+from api import run_api_request
 from utils import build_menu
 from pprint import pprint
 
@@ -75,11 +75,15 @@ def search_action(type_of, type_title) :
                     )
 
                     if action == "1" :
-                        print("save movie")
+                        # add_to_watchlist(
+                        #     toevoegen aan watchlist
+                        # )
+                        movie_title = selected_movie["data"]["Title"]
+                        print(f"{movie_title} is opgeslagen in je watchlist!")
                     elif action == "2" :
                         return
                     elif action == "3" :
-
+                        print("test")
 
                 elif action == "2" :
                     break
