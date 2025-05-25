@@ -1,10 +1,9 @@
+import requests
+apikey = "c2a7b567"
+
 def run_api_request(zoekfunctie, zoekopdracht, zoektype) :
 
-    import requests
-
-    apikey = "c2a7b567"
-    request_url = f"https://www.omdbapi.com/?{zoekfunctie}={zoekopdracht}&type={zoektype}&apikey={apikey}"
-
+    request_url = f"http://www.omdbapi.com/?{zoekfunctie}={zoekopdracht}&type={zoektype}&apikey={apikey}"
     response = requests.get(request_url)
 
     if response.status_code == 200:
