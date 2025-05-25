@@ -1,2 +1,4 @@
+# requests is nodig voor het uitvoeren van api taken
 requests
+# urllib3 1.26.18 is nodig voor het ssl certificaat van omdbapi.com
 urllib3==1.26.18
