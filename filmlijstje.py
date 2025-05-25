@@ -1,5 +1,7 @@
 from utils import build_menu
-from menus.search import search_menu
+from search import search_menu
+from watchlist import watchlist_menu
+
 
 def main_menu() :
     while True :
@@ -17,7 +19,7 @@ def main_menu() :
             if status == "back_to_main":
                 continue
         elif choice == "2" :
-            status = search_menu()
+            status = watchlist_menu()
             if status == "back_to_main":
                 continue
 
