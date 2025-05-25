@@ -1,38 +1,101 @@
-from api.search_api import run_api_request
+from api.api import run_api_request
+from utils import build_menu
+from pprint import pprint
 
-def run_search_menu():
+def search_menu() :
     while True:
+        choice = build_menu(
+            "Zoeken, kies uit onderstaande:",
+            [
+                "Film zoeken",
+                "Serie zoeken",
+                "Ga terug naar hoofdmenu"
+            ]
+        )
 
-        menu = """
-Zoeken naar films, kies uit onderstaande:
-    1) Film zoeken
-    2) Serie zoeken
-    3) Ga terug naar hoofdmenu
-            
-Naar welk menu wil je navigeren?  """
+        if choice == "1":
+            search_action(
+                "movie",
+                "films"
+            )
+        elif choice == "2":
+            search_action(
+                "series",
+                "series"
+            )
+        elif choice == "3":
+            return  # terug naar hoofdmenu
+        else:
+            print("Ongeldige invoer.")
 
-        keuzemenu = input(menu)
-
-        if keuzemenu == "1":
-            zoektype = "movie"
-            zoekopdracht = input("Zoeken naar films: ")
-            resultaat = run_api_request(zoekfunctie = "s", zoekopdracht = zoekopdracht, zoektype = zoektype)
-            if resultaat["success"]:
-                for index, movie in enumerate(resultaat["data"]["Search"], start = 1):
-                    print(f"{index}. {movie['Title']} ({movie['Year']})")
-            else:
-                print(f"⚠️ {resultaat['error']}")
-            input("Resultaat bekijken of terug naar hoofdmenu? ")
-        elif keuzemenu == "2":
-            zoektype = "series"
-            zoekopdracht = input("Zoeken naar series: ")
-            resultaat = run_api_request(zoekfunctie="s", zoekopdracht=zoekopdracht, zoektype=zoektype)
-            if resultaat["success"]:
-                for movie in resultaat["data"]["Search"]:
-                    print(f"📺 Titel: {movie['Title']} · Datum: {movie['Year']}")
-            else:
-                print(f"⚠️ {resultaat['error']}")
-        elif keuzemenu == "3":
+def search_action(type_of, type_title) :
+    while True :
+        search_input = input(f"Zoeken naar {type_title} (Type 'Terug' om te stoppen): ")
+        if search_input == "Terug":
             break
+
+        result = run_api_request(
+            "s",
+            search_input,
+            type_of
+        )
+        if result["success"] :
+            search_results = result["data"]
+            print("\nJe zoekopdracht: \"", search_input, "\" heeft", search_results["totalResults"], "resultaten:")
+            print("---" * 10)
+            for index, movie in enumerate(search_results["Search"], start=1) :
+                print(f"{index}. {movie['Title']} ({movie['Year']})")
+            print("---" * 10)
+
+            while True :
+                action = build_menu(
+                "Navigatie:",
+                [
+                        "Film data bekijken",
+                        "Opnieuw zoeken",
+                        "Ga terug naar hoofdmenu"
+                    ]
+                )
+
+                if action == "1" :
+                    movie_selection = int(input("Voer het resultaatnummer van de film in: ")) -1
+                    selected_movie = select_movie(
+                        search_results["Search"][movie_selection]['imdbID'],
+                        type_of
+                    )
+                    pprint(selected_movie["data"])
+
+                    action = build_menu(
+                        "Acties:",
+                        [
+                            "Film opslaan",
+                            "Terug naar zoeken",
+                            "Ga terug naar hoofdmenu"
+                        ]
+                    )
+
+                    if action == "1" :
+                        print("save movie")
+                    elif action == "2" :
+                        return
+                    elif action == "3" :
+
+
+                elif action == "2" :
+                    break
+                elif action == "3" :
+                    return
+                else:
+                    print("Ongeldige keuze.")
+
         else :
-            print("Incorrecte input, graag kiezen uit 1 van de 3 menu items.\n")
+            print(f"⚠️ {result['error']}")
+            break
+
+def select_movie(movie_id, type_of) :
+    result = run_api_request(
+        "i",
+        movie_id,
+        type_of
+    )
+    return result
