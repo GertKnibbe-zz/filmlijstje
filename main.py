@@ -1,4 +1,3 @@
-from colorama import Fore
 from menus.search import run_search_menu
 from utils import clear_console
 
